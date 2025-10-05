@@ -1,0 +1,15 @@
+# virtual env
+.venv/
+__pycache__/
+*.pyc
+
+# experiments
+experiments/logs/
+*.pth
+*.pt
+
+# notebooks
+.ipynb_checkpoints/
+
+# datasets
+data/
