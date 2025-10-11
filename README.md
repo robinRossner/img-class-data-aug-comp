@@ -87,7 +87,7 @@ train_loader, val_loader, test_loader, meta = build_dataloaders(
 
 Reproducibility
 
-Fixed seed: 42 (changeable in CLI/config).
+Fixed seed: 67 (changeable in CLI/config).
 
 Frozen splits: we train/evaluate against experiments/splits/*.csv.
 

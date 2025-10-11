@@ -13,3 +13,6 @@ experiments/logs/
 
 # datasets
 data/
+
+# Pure Self Study Notebooks
+/notebooks/sanity_check.ipynb

@@ -6,8 +6,8 @@ from PIL import Image
 def build_dataloaders(
     data_root: str,
     size: int = 224,
-    batch_size: int = 64,
-    num_workers: int = 4,
+    batch_size: int = 10,
+    num_workers: int = 0,
     seed: int = 67,
     val_split: float = 0.1,
     test_split: float = 0.1,
