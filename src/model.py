@@ -23,10 +23,8 @@ class SimpleCNN(nn.Module):
 
 
     def forward(self, x):
-        print("Input:", x.shape)
-        for layer in self.ConvStack:
-            x = layer(x)
-            print(layer.__class__.__name__, "→", x.shape)
+        x = self.ConvStack(x)
+        x = self.classifier(x)
         return x
 
 

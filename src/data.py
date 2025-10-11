@@ -7,14 +7,14 @@ def build_dataloaders(
     data_root: str,
     size: int = 224,
     batch_size: int = 10,
-    num_workers: int = 0,
+    num_workers: int = 7,
     seed: int = 67,
     val_split: float = 0.1,
     test_split: float = 0.1,
 ):
     assert os.path.isdir(data_root), f"Cant find data path: {data_root}"
 
-    samples, class_to_idx, class_names = discover_samples(data_root, limit_per_class=True)
+    samples, class_to_idx, class_names = discover_samples(data_root, limit_per_class=False)
 
     # # Make sure data exists DEBUGGING
     assert samples, "No Img found in the dataset root."
@@ -170,11 +170,17 @@ class FileListDataset(Dataset):
 
     def __getitem__(self, idx):
         filepath, label = self.items[idx]
-        img = Image.open(filepath).convert("RGB")
+        try:
+            img = Image.open(filepath).convert("RGB")
+        except Exception as e:
+            print(f"Error loading {filepath}: {e}")
+            img = Image.new("RGB", (224, 224), (0, 0, 0))
+
+
         if self.transform:
             img = self.transform(img)
-        return img, label
 
+        return img, label
 
 
 def main():
