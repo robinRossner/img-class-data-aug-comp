@@ -18,6 +18,8 @@ data/
 
 # Pure Self Study
 /notebooks/sanity_check.ipynb
+/notebooks/colab_compact_train.ipynb
 
 # Other
 .DS_Store
+data.zip

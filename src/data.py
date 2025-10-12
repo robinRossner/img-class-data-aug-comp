@@ -55,6 +55,7 @@ def build_dataloaders(
         "mean": [0.485, 0.456, 0.406],
         "std": [0.229, 0.224, 0.225],
         "size": size,
+        "num_classes": len(class_names),
     }
 
     return train_loader, val_loader, test_loader, meta
@@ -149,7 +150,7 @@ def make_transforms(size: int, seed: int):
 
     baseTransform = transforms.Compose([
         transforms.Resize((int(size + 32), int(size + 32))),
-        transforms.CenterCrop(int(size)), # TODO: Replace with RandomResizedCrop
+        transforms.RandomResizedCrop(int(size)), # TODO: Replace with RandomResizedCrop
         transforms.ToTensor(),
         transforms.Normalize(mean=mean, std=std),
     ])
