@@ -76,8 +76,7 @@ def discover_samples(data_root: str, limit_per_class: bool = False):
         class_names.append(class_name)
 
 
-        all_files = [f for f in os.listdir(class_path) if f.lower().endswith(('.jpeg'))
-        ]
+        all_files = [f for f in os.listdir(class_path) if f.lower().endswith(('.jpeg', '.jpg', '.png'))]
 
         # Limit samples per class for quicker testing/debugging
         if limit_per_class:

@@ -4,15 +4,15 @@ import os
 def load_model_checkpoint(model, checkpoint_path):
     if checkpoint_path is None or not os.path.isfile(checkpoint_path):
         print(f"No checkpoint found at {checkpoint_path}")
-        return
-    checkpoint = model.load_state_dict(torch.load(checkpoint_path))
+        return None
+    checkpoint = torch.load(checkpoint_path, map_location='cpu')
     if isinstance(checkpoint, dict) and 'model_state_dict' in checkpoint:
         model.load_state_dict(checkpoint['model_state_dict'])
     elif isinstance(checkpoint, dict):
         model.load_state_dict(checkpoint)
     else:
         print("Checkpoint format not recognized.")
-        return
+        return None
     print(f"Loaded model weights from {checkpoint_path}")
     return checkpoint
 
@@ -24,9 +24,9 @@ def evaluate(model, dataloader, criterion):
 
     device = next(model.parameters()).device
     model.to(device)
-    criterion.to(device)
     with torch.no_grad():
         for input, labels in dataloader:
+            input, labels = input.to(device), labels.to(device)
             outputs = model(input)
             loss = criterion(outputs, labels)
         
@@ -56,6 +56,8 @@ def evaluateClassAccurracy(model, loader, criterion, num_classes=10):
 
     with torch.no_grad():
         for x, y in loader:
+            x = x.to(device)
+            y = y.to(device)
             logits = model(x)
             loss = criterion(logits, y)
             loss_sum += float(loss) * x.size(0)
