@@ -11,7 +11,7 @@ def seed_everything(seed: int):
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(seed)
 
-def plot(val_losses, val_accuracies, train_losses):
+def plot(val_losses, val_accuracies, train_losses, dest=None):
 
     epochs = range(1, len(train_losses) + 1)
 
@@ -33,5 +33,7 @@ def plot(val_losses, val_accuracies, train_losses):
     plt.legend()
 
     plt.tight_layout()
+    if dest:
+        plt.savefig(dest)
     plt.show()
     plt.close()

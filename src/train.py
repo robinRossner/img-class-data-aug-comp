@@ -6,7 +6,7 @@ import csv
 from utils import seed_everything
 from eval import evaluate
 
-def train_x_epoch(model, dataloader, criterion, optimizer, x, scheduler=None, val_loader=None, seed=67):
+def train_x_epoch(model, dataloader, criterion, optimizer, epochs, scheduler=None, val_loader=None, seed=67, augTier=0):
     seed_everything(seed)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -16,8 +16,8 @@ def train_x_epoch(model, dataloader, criterion, optimizer, x, scheduler=None, va
     val_accuracies = []
     train_losses = []
     best_val_acc = -1.0
-    for epoch in range(x):  # loop over the dataset multiple times
-        print(f"Epoch {epoch+1}/{x}  lr={optimizer.param_groups[0]['lr']:.6f}")
+    for epoch in range(epochs):  # loop over the dataset multiple times
+        print(f"Epoch {epoch+1}/{epochs}  lr={optimizer.param_groups[0]['lr']:.6f}")
         model.train()
 
         total_loss = 0.0
@@ -72,13 +72,13 @@ def train_x_epoch(model, dataloader, criterion, optimizer, x, scheduler=None, va
             is_best = val_acc > best_val_acc
             if is_best:
                 best_val_acc = val_acc
-                checkpoint_model(model, optimizer, epoch, is_best)
+                checkpoint_model(model, optimizer, epoch, is_best, augTier)
         else:
             # fallback to train_acc if no val set
             is_best = train_acc > best_val_acc
             if is_best:
                 best_val_acc = train_acc
-                checkpoint_model(model, optimizer, epoch, is_best)
+                checkpoint_model(model, optimizer, epoch, is_best, augTier)
 
         metrics = { # TODO TEST IF WORK LATER WHEN HOME
             "epoch": epoch + 1,
@@ -88,7 +88,7 @@ def train_x_epoch(model, dataloader, criterion, optimizer, x, scheduler=None, va
             "val_acc": val_acc if val_acc is not None else "",
             "lr": optimizer.param_groups[0]['lr'],
         }
-        log_metrics(metrics)
+        log_metrics(metrics, augTier)
 
 
         epoch_train_loss = total_loss / max(1, samples)
@@ -99,10 +99,10 @@ def train_x_epoch(model, dataloader, criterion, optimizer, x, scheduler=None, va
     print('Finished Training')
     return val_losses, val_accuracies, train_losses
 
-def checkpoint_model(model, optimizer, epoch, is_best=False):
+def checkpoint_model(model, optimizer, epoch, is_best=False, augTier=0):
     # if model is best so far, save as best
-    best_path = "experiments/checkpoints/model_epoch_best.pth"
-    last_path = "experiments/checkpoints/model_epoch_last_epoch.pth"
+    best_path = f"experiments/checkpoints/model_epoch_best_Tier{augTier}.pth"
+    last_path = f"experiments/checkpoints/model_epoch_last_Tier{augTier}.pth"
     checkpoint = {
         'epoch': epoch,
         'model_state_dict': model.state_dict(),
@@ -114,8 +114,8 @@ def checkpoint_model(model, optimizer, epoch, is_best=False):
         torch.save(checkpoint, best_path)
         print(f"Model checkpoint saved to {best_path}")
 
-def log_metrics(metrics_dict):
-    logfile = "experiments/logs/training_log.csv"
+def log_metrics(metrics_dict, augTier=0):
+    logfile = f"experiments/logs/training_log_Tier{augTier}.csv"
     with open(logfile, "a", newline="") as f:
         writer = csv.writer(f)
         if f.tell() == 0:  # file is empty, write header
