@@ -101,8 +101,8 @@ def train_x_epoch(model, dataloader, criterion, optimizer, epochs, scheduler=Non
 
 def checkpoint_model(model, optimizer, epoch, is_best=False, augTier=0):
     # if model is best so far, save as best
-    best_path = f"experiments/checkpoints/model_epoch_best_Tier{augTier}.pth"
-    last_path = f"experiments/checkpoints/model_epoch_last_Tier{augTier}.pth"
+    best_path = f"../experiments/checkpoints/model_epoch_best_Tier{augTier}.pth"
+    last_path = f"../experiments/checkpoints/model_epoch_last_Tier{augTier}.pth"
     checkpoint = {
         'epoch': epoch,
         'model_state_dict': model.state_dict(),
@@ -115,7 +115,7 @@ def checkpoint_model(model, optimizer, epoch, is_best=False, augTier=0):
         print(f"Model checkpoint saved to {best_path}")
 
 def log_metrics(metrics_dict, augTier=0):
-    logfile = f"experiments/logs/training_log_Tier{augTier}.csv"
+    logfile = f"../experiments/logs/training_log_Tier{augTier}.csv"
     with open(logfile, "a", newline="") as f:
         writer = csv.writer(f)
         if f.tell() == 0:  # file is empty, write header

@@ -2,6 +2,7 @@ import random
 import numpy as np
 import torch
 import matplotlib.pyplot as plt
+import pandas as pd
 
 def seed_everything(seed: int):
 
@@ -37,3 +38,10 @@ def plot(val_losses, val_accuracies, train_losses, dest=None):
         plt.savefig(dest)
     plt.show()
     plt.close()
+
+def plot_from_csv(source, dest):
+    df = pd.read_csv(source)
+    val_losses = df['val_loss'].tolist()
+    val_accuracies = df['val_acc'].tolist()
+    train_losses = df['train_loss'].tolist()
+    plot(val_losses, val_accuracies, train_losses, dest=dest)

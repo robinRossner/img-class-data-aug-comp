@@ -1,5 +1,6 @@
 # virtual env
 .venv/
+.venvClean/
 __pycache__/
 *.pyc
 
