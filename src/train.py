@@ -138,6 +138,7 @@ def main():
         data_root=data_root,
         batch_size=batch_size,
         num_workers=num_workers,
+        augmentationTier=0
     )
 
     # Initialize model, loss function, optimizer

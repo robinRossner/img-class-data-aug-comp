@@ -11,8 +11,9 @@ def build_dataloaders(
     seed: int = 67,
     val_split: float = 0.1,
     test_split: float = 0.1,
-):
-    assert os.path.isdir(data_root), f"Cant find data path: {data_root}"
+    augmentationTier: int = 0,
+    ):
+    assert os.path.isdir(data_root), f"Cannot find data path: {data_root}"
 
     samples, class_to_idx, class_names = discover_samples(data_root, limit_per_class=False)
 
@@ -26,7 +27,7 @@ def build_dataloaders(
     save_split_csv("experiments/splits", train, val, test)
 
     # Create transforms
-    transforms_dict = make_transforms(size, seed)
+    transforms_dict = make_transforms(size, seed, augmentationTier)
 
     # Datasets
     train_ds = FileListDataset(train)
@@ -141,23 +142,56 @@ def load_split_csv(csv_path: str):
             samples.append((filepath, int(label)))
     return samples
 
-def make_transforms(size: int, seed: int):
+def make_transforms(size: int, seed: int, augmentationTier: int = 0):
 
     mean, std = [0.485, 0.456, 0.406], [0.229, 0.224, 0.225]
 
     random.seed(seed)
 
-    baseTransform = transforms.Compose([
+    base = transforms.Compose([
         transforms.Resize((int(size + 32), int(size + 32))),
-        transforms.RandomResizedCrop(int(size)), # TODO: Replace with RandomResizedCrop
+    ])
+    final = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize(mean=mean, std=std),
+    ])
+
+    if augmentationTier == 1:
+        middle = transforms.Compose([
+            transforms.RandomHorizontalFlip(p=0.5),
+            transforms.RandomCrop(int(size), padding=10),
+        ])
+    elif augmentationTier == 2:
+        middle = transforms.Compose([
+            transforms.RandomHorizontalFlip(p=0.5),
+            transforms.RandomCrop(int(size), padding=10),
+            transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2),
+        ])
+    elif augmentationTier == 3:
+        middle = transforms.Compose([
+            transforms.RandomHorizontalFlip(p=0.5),
+            transforms.RandomCrop(int(size), padding=10),
+            transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2),
+        ])
+        final = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.RandomErasing(p=0.25),
+            transforms.Normalize(mean=mean, std=std),
+        ])
+    else:
+        middle = transforms.Compose([
+        ])
+
+    val_test = transforms.Compose([
+        base, 
         transforms.ToTensor(),
         transforms.Normalize(mean=mean, std=std),
     ])
 
     return {
-        "train": baseTransform,
-        "val": baseTransform,
-        "test": baseTransform,
+        "train": transforms.Compose([base, middle, final]),
+        "val": val_test,
+        "test": val_test,
     }
     
 class FileListDataset(Dataset):
