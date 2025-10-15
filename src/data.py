@@ -39,7 +39,7 @@ def build_dataloaders(
     test_ds.transform = transforms_dict["test"]
 
     print(f"Discovered {len(samples)} samples in {len(class_names)} classes.")
-    print(f"Train/val/test split: {len(train)}/{len(val)}/{len(test)}")
+    print(f"Augmentation Tier {augmentationTier} - Train/val/test split: {len(train)}/{len(val)}/{len(test)}")
 
     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=num_workers)
     val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False, num_workers=num_workers)
@@ -129,7 +129,7 @@ def save_split_csv(out_dir: str, train, val, test):
             for filepath, label in split_data:
                 class_name = os.path.basename(os.path.dirname(filepath))
                 writer.writerow([filepath, label, class_name])
-        print(f"Saved {len(split_data)} samples to {csv_path}")
+        #print(f"Saved {len(split_data)} samples to {csv_path}")
 
 def load_split_csv(csv_path: str):
     # For future use

@@ -5,7 +5,6 @@ __pycache__/
 *.pyc
 
 # experiments
-experiments/logs/
 *.pth
 *.pt
 /experiments/clean_bad_images.py
