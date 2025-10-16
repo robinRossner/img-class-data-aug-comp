@@ -115,8 +115,9 @@ def checkpoint_model(model, optimizer, epoch, is_best=False, augTier=0):
         print(f"Model checkpoint saved to {best_path}")
 
 def log_metrics(metrics_dict, augTier=0):
+    mode = "w" if int(metrics_dict.get("epoch", 0)) == 1 else "a"
     logfile = f"../experiments/logs/training_log_Tier{augTier}.csv"
-    with open(logfile, "a", newline="") as f:
+    with open(logfile, mode=mode, newline="") as f:
         writer = csv.writer(f)
         if f.tell() == 0:  # file is empty, write header
             writer.writerow(metrics_dict.keys())
