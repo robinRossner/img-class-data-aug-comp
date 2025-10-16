@@ -39,24 +39,28 @@ from model import build_model
 epochs = 50
 model_name = "mobilenet_v2"
 
-model0 = build_model(in_channels=3, num_classes=10, name=model_name).to(device)
-model1 = build_model(in_channels=3, num_classes=10, name=model_name).to(device)
-model2 = build_model(in_channels=3, num_classes=10, name=model_name).to(device)
-model3 = build_model(in_channels=3, num_classes=10, name=model_name).to(device)
+def define_model():
+    model = build_model(in_channels=3, num_classes=10, name=model_name).to(device)
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=1e-6)
+    return model, optimizer, scheduler
 
 criterion = torch.nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=1e-6)
+
+model0, optimizer0, scheduler0 = define_model()
+model1, optimizer1, scheduler1 = define_model()
+model2, optimizer2, scheduler2 = define_model()
+model3, optimizer3, scheduler3 = define_model()
 
 val_losses0, val_accuracies0, train_losses0 = train_x_epoch(
-    model0, train_loader0, criterion=criterion, optimizer=optimizer, epochs=epochs, scheduler=scheduler, val_loader=val_loader0, seed=67, augTier=0
+    model0, train_loader0, criterion=criterion, optimizer=optimizer0, epochs=epochs, scheduler=scheduler0, val_loader=val_loader0, seed=67, augTier=0
 )
 val_losses1, val_accuracies1, train_losses1 = train_x_epoch(
-    model1, train_loader1, criterion=criterion, optimizer=optimizer, epochs=epochs, scheduler=scheduler, val_loader=val_loader1, seed=67, augTier=1
+    model1, train_loader1, criterion=criterion, optimizer=optimizer1, epochs=epochs, scheduler=scheduler1, val_loader=val_loader1, seed=67, augTier=1
 )
 val_losses2, val_accuracies2, train_losses2 = train_x_epoch(
-    model2, train_loader2, criterion=criterion, optimizer=optimizer, epochs=epochs, scheduler=scheduler, val_loader=val_loader2, seed=67, augTier=2
+    model2, train_loader2, criterion=criterion, optimizer=optimizer2, epochs=epochs, scheduler=scheduler2, val_loader=val_loader2, seed=67, augTier=2
 )
 val_losses3, val_accuracies3, train_losses3 = train_x_epoch(
-    model3, train_loader3, criterion=criterion, optimizer=optimizer, epochs=epochs, scheduler=scheduler, val_loader=val_loader3, seed=67, augTier=3
+    model3, train_loader3, criterion=criterion, optimizer=optimizer3, epochs=epochs, scheduler=scheduler3, val_loader=val_loader3, seed=67, augTier=3
 )
