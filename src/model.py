@@ -38,7 +38,7 @@ def build_model(in_channels=3, num_classes=10, name="small_cnn"):
         model = torchvision.models.resnet18(pretrained=False)
         model.fc = nn.Linear(model.fc.in_features, num_classes)
     elif name == "mobilenet_v2":
-        model = torchvision.models.mobilenet_v2(pretrained=False)
+        model = torchvision.models.mobilenet_v2(pretrained=True)
         if isinstance(model.classifier, nn.Sequential):
             in_f = model.classifier[-1].in_features
             model.classifier[-1] = nn.Linear(in_f, num_classes)
