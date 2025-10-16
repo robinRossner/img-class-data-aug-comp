@@ -41,14 +41,14 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=3, gamma=0.1)
 
 val_losses0, val_accuracies0, train_losses0 = train_x_epoch(
-    model, train_loader0, criterion=criterion, optimizer=optimizer, epochs=10, scheduler=scheduler, val_loader=val_loader0, seed=67, augTier=0
+    model, train_loader0, criterion=criterion, optimizer=optimizer, epochs=100, scheduler=scheduler, val_loader=val_loader0, seed=67, augTier=0
 )
 val_losses1, val_accuracies1, train_losses1 = train_x_epoch(
-    model, train_loader1, criterion=criterion, optimizer=optimizer, epochs=10, scheduler=scheduler, val_loader=val_loader1, seed=67, augTier=1
+    model, train_loader1, criterion=criterion, optimizer=optimizer, epochs=100, scheduler=scheduler, val_loader=val_loader1, seed=67, augTier=1
 )
 val_losses2, val_accuracies2, train_losses2 = train_x_epoch(
-    model, train_loader2, criterion=criterion, optimizer=optimizer, epochs=10, scheduler=scheduler, val_loader=val_loader2, seed=67, augTier=2
+    model, train_loader2, criterion=criterion, optimizer=optimizer, epochs=100, scheduler=scheduler, val_loader=val_loader2, seed=67, augTier=2
 )
 val_losses3, val_accuracies3, train_losses3 = train_x_epoch(
-    model, train_loader3, criterion=criterion, optimizer=optimizer, epochs=10, scheduler=scheduler, val_loader=val_loader3, seed=67, augTier=3
+    model, train_loader3, criterion=criterion, optimizer=optimizer, epochs=100, scheduler=scheduler, val_loader=val_loader3, seed=67, augTier=3
 )
