@@ -4,6 +4,7 @@ p = Path.cwd().resolve()
 while p != p.parent and not (p / 'requirements.txt').exists() and not (p / 'data').exists():
     p = p.parent
 
+from pyexpat import model
 import sys
 sys.path.insert(0, str(p / "src"))
 
@@ -34,23 +35,28 @@ print("----------Finished loading data----------")
 from train import train_x_epoch
 import torch
 from model import build_model
-model = build_model(in_channels=3, num_classes=10, name="mobilenet_v2").to(device)
 
 epochs = 50
+model_name = "mobilenet_v2"
+
+model0 = build_model(in_channels=3, num_classes=10, name=model_name).to(device)
+model1 = build_model(in_channels=3, num_classes=10, name=model_name).to(device)
+model2 = build_model(in_channels=3, num_classes=10, name=model_name).to(device)
+model3 = build_model(in_channels=3, num_classes=10, name=model_name).to(device)
 
 criterion = torch.nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=1e-6)
 
 val_losses0, val_accuracies0, train_losses0 = train_x_epoch(
-    model, train_loader0, criterion=criterion, optimizer=optimizer, epochs=epochs, scheduler=scheduler, val_loader=val_loader0, seed=67, augTier=0
+    model0, train_loader0, criterion=criterion, optimizer=optimizer, epochs=epochs, scheduler=scheduler, val_loader=val_loader0, seed=67, augTier=0
 )
 val_losses1, val_accuracies1, train_losses1 = train_x_epoch(
-    model, train_loader1, criterion=criterion, optimizer=optimizer, epochs=epochs, scheduler=scheduler, val_loader=val_loader1, seed=67, augTier=1
+    model1, train_loader1, criterion=criterion, optimizer=optimizer, epochs=epochs, scheduler=scheduler, val_loader=val_loader1, seed=67, augTier=1
 )
 val_losses2, val_accuracies2, train_losses2 = train_x_epoch(
-    model, train_loader2, criterion=criterion, optimizer=optimizer, epochs=epochs, scheduler=scheduler, val_loader=val_loader2, seed=67, augTier=2
+    model2, train_loader2, criterion=criterion, optimizer=optimizer, epochs=epochs, scheduler=scheduler, val_loader=val_loader2, seed=67, augTier=2
 )
 val_losses3, val_accuracies3, train_losses3 = train_x_epoch(
-    model, train_loader3, criterion=criterion, optimizer=optimizer, epochs=epochs, scheduler=scheduler, val_loader=val_loader3, seed=67, augTier=3
+    model3, train_loader3, criterion=criterion, optimizer=optimizer, epochs=epochs, scheduler=scheduler, val_loader=val_loader3, seed=67, augTier=3
 )
