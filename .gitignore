@@ -3,6 +3,7 @@
 .venvClean/
 __pycache__/
 *.pyc
+venvClean/
 
 # experiments
 *.pth
