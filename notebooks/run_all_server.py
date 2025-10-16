@@ -11,7 +11,7 @@ print(f"Current working directory: {sys.path[0]}")
 
 #check which device is available if multiple GPUs are available, list which ones are free
 import torch
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device}")
 
 if device.type == "cuda":
