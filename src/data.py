@@ -2,6 +2,7 @@ from torchvision import transforms
 from torch.utils.data import DataLoader, Dataset
 import os, random, csv
 from PIL import Image
+import numpy as np
 
 def build_dataloaders(
     data_root: str,
@@ -41,9 +42,15 @@ def build_dataloaders(
     print(f"Discovered {len(samples)} samples in {len(class_names)} classes.")
     print(f"Augmentation Tier {augmentationTier} - Train/val/test split: {len(train)}/{len(val)}/{len(test)}")
 
-    train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=num_workers)
-    val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False, num_workers=num_workers)
-    test_loader = DataLoader(test_ds, batch_size=batch_size, shuffle=False, num_workers=num_workers)
+    # reproducible worker RNGs
+    worker_init = lambda worker_id: np.random.seed(seed + worker_id)
+
+    train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True,
+                              num_workers=num_workers, worker_init_fn=worker_init)
+    val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False,
+                            num_workers=num_workers, worker_init_fn=worker_init)
+    test_loader = DataLoader(test_ds, batch_size=batch_size, shuffle=False,
+                             num_workers=num_workers, worker_init_fn=worker_init)
 
     meta = {
         "class_names": class_names,
