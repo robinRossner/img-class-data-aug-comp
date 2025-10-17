@@ -36,7 +36,7 @@ from train import train_x_epoch
 import torch
 from model import build_model
 
-epochs = 200
+epochs = 100
 model_name = "mobilenet_v2"
 
 def define_model():
