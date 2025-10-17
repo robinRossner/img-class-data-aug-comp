@@ -17,7 +17,8 @@ print(f"Using device: {device}")
 
 if device.type == "cuda":
     print("Available CUDA devices:")
-    torch.cuda.set_device(1)
+    if torch.cuda.device_count() > 1:
+        torch.cuda.set_device(1)
     for i in range(torch.cuda.device_count()):
         print(f"  {i}: {torch.cuda.get_device_name(i)}")
     print(f"Using GPU: {torch.cuda.current_device()}")

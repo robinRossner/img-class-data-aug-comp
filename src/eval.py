@@ -41,7 +41,7 @@ def evaluate(model, dataloader, criterion):
     return avg_loss, accuracy
 
 
-def evaluateClassAccurracy(model, loader, criterion, num_classes=10):
+def evaluateClassAccuracy(model, loader, criterion, num_classes=10):
     model.eval()
     correct = 0
     total = 0
@@ -66,10 +66,10 @@ def evaluateClassAccurracy(model, loader, criterion, num_classes=10):
             total += x.size(0)
 
             # Update per-class counters
-            c = (preds == y).squeeze()
+            equal = (preds == y)
             for i in range(len(y)):
-                label = y[i]
-                class_correct[label] += c[i].item()
+                label = int(y[i].item())
+                class_correct[label] += int(equal[i].item())
                 class_total[label] += 1
 
     # Calculate per-class accuracies
@@ -78,3 +78,4 @@ def evaluateClassAccurracy(model, loader, criterion, num_classes=10):
     print("Per-Class Accuracies:")
     for i in range(num_classes):
         print(f'Class {i}: {100 * class_accuracies[i]:.2f}%')
+    return class_accuracies

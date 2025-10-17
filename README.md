@@ -46,8 +46,10 @@ Current split (train / val / test): **17,380 / 2,165 / 2,165** (≈80/10/10).
   - 01_data_sanity.ipynb
   - 02_model_sanity.ipynb
   - sanity_check_full.ipynb
+  - compare_tiers.ipynb
+  - run_all_server.py
 
-- plots/ — generated plots (usually ignored)
+- plots/ — generated plots
 - requirements.txt — (versioned) dependency list
 - README.md — this file
 
@@ -69,7 +71,7 @@ Quick sanity checks
 - Week 1 — Repo scaffolding & env ✅
 - Week 2 — Data pipeline ✅
 - Week 3 — Baseline model & training loop ✅
-- Week 4 — Data augmentation experiments ⏳
+- Week 4 — Data augmentation experiments ✅
 - Week 5 — Grad-CAM visualizations ⏳
 - Week 6 — Results, conclusions, polish ⏳
 

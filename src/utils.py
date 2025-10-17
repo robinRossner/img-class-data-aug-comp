@@ -11,6 +11,9 @@ def seed_everything(seed: int):
     torch.manual_seed(seed)
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(seed)
+    # Deterministic behavior for cuda (may be slower)
+    #torch.backends.cudnn.deterministic = True
+    #torch.backends.cudnn.benchmark = False
 
 def plot(val_losses, val_accuracies, train_losses, dest=None):
 
@@ -18,20 +21,31 @@ def plot(val_losses, val_accuracies, train_losses, dest=None):
 
     plt.figure(figsize=(12, 5))
 
-    plt.subplot(1, 2, 1)
-    plt.plot(epochs, train_losses, 'b-', label='Training Loss')
-    plt.plot(epochs, val_losses, 'r-', label='Validation Loss')
-    plt.title('Training and Validation Loss')
-    plt.xlabel('Epochs')
-    plt.ylabel('Loss')
-    plt.legend()
+    ax1 = plt.subplot(1, 2, 1)
+    ax1.plot(epochs, train_losses, 'b-', label='Training Loss')
+    ax1.plot(epochs, val_losses, 'r-', label='Validation Loss')
+    ax1.set(title='Training and Validation Loss', xlabel='Epochs', ylabel='Loss')
+    ax1.legend()
 
-    plt.subplot(1, 2, 2)
-    plt.plot(epochs, val_accuracies, 'g-', label='Validation Accuracy')
-    plt.title('Validation Accuracy')
-    plt.xlabel('Epochs')
-    plt.ylabel('Accuracy (%)')
-    plt.legend()
+    ax2 = plt.subplot(1, 2, 2)
+    ax2.plot(epochs, val_accuracies, 'g-', label='Validation Accuracy')
+    ax2.set(title='Validation Accuracy', xlabel='Epochs', ylabel='Accuracy (%)')
+    ax2.legend()
+
+    # collect valid numeric accuracies
+    try:
+        accs = np.array([float(a) for a in val_accuracies if a not in (None, "")])
+        accs = accs[np.isfinite(accs)]
+    except Exception:
+        accs = np.array([])
+
+    if accs.size:
+        best = accs.max()
+        n = min(20, accs.size)
+        mean_last = accs[-n:].mean()
+        ax2.text(0.02, 0.95, f"Best: {best:.2f}%\nMean(last {n}): {mean_last:.2f}%",
+                 transform=ax2.transAxes, verticalalignment='top',
+                 bbox=dict(boxstyle='round', facecolor='white', alpha=0.6))
 
     plt.tight_layout()
     if dest:
