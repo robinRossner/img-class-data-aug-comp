@@ -6,7 +6,6 @@ __pycache__/
 venvClean/
 
 # experiments
-*.pth
 *.pt
 /experiments/clean_bad_images.py
 experiments/bad_images/
