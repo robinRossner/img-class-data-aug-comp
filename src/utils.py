@@ -19,7 +19,7 @@ def plot(val_losses, val_accuracies, train_losses, dest=None):
 
     epochs = range(1, len(train_losses) + 1)
 
-    plt.figure(figsize=(12, 5))
+    plt.figure(figsize=(8, 3))
 
     ax1 = plt.subplot(1, 2, 1)
     ax1.plot(epochs, train_losses, 'b-', label='Training Loss')

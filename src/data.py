@@ -43,7 +43,7 @@ def build_dataloaders(
     print(f"Augmentation Tier {augmentationTier} - Train/val/test split: {len(train)}/{len(val)}/{len(test)}")
 
     # reproducible worker RNGs
-    worker_init = lambda worker_id: np.random.seed(seed + worker_id)
+    worker_init = None
 
     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True,
                               num_workers=num_workers, worker_init_fn=worker_init)
@@ -84,7 +84,7 @@ def discover_samples(data_root: str, limit_per_class: bool = False):
         class_names.append(class_name)
 
 
-        all_files = [f for f in os.listdir(class_path) if f.lower().endswith(('.jpeg', '.jpg', '.png'))]
+        all_files = sorted([f for f in os.listdir(class_path) if f.lower().endswith(('.jpeg', '.jpg', '.png'))])
 
         # Limit samples per class for quicker testing/debugging
         if limit_per_class:
