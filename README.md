@@ -68,8 +68,7 @@ Quick sanity checks
 
 ## Grad-CAM Visualizations
 
-Below: For each class, we show a correctly classified ("easy") and a misclassified ("hard") sample.  
-Left: Original image. Right: Grad-CAM overlay with model prediction and true label.
+Below: For some classes, below are correctly classified ("easy") and a misclassified ("hard") sample.  
 
 | Class |             Plot              |
 |-------|:-----------------------------:|
