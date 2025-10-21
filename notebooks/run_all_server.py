@@ -25,10 +25,12 @@ if device.type == "cuda":
 
 from data import build_dataloaders
 
-train_loader0, val_loader0, test_loader0, meta0 = build_dataloaders(data_root=os.path.join(p, 'data'), size=128, batch_size=64, augmentationTier=0)
-train_loader1, val_loader1, test_loader1, meta1 = build_dataloaders(data_root=os.path.join(p, 'data'), size=128, batch_size=64, augmentationTier=1)
-train_loader2, val_loader2, test_loader2, meta2 = build_dataloaders(data_root=os.path.join(p, 'data'), size=128, batch_size=64, augmentationTier=2)
-train_loader3, val_loader3, test_loader3, meta3 = build_dataloaders(data_root=os.path.join(p, 'data'), size=128, batch_size=64, augmentationTier=3)
+manualSeed = 68
+
+train_loader0, val_loader0, test_loader0, meta0 = build_dataloaders(data_root=os.path.join(p, 'data'), size=128, batch_size=64, augmentationTier=0, seed=manualSeed)
+train_loader1, val_loader1, test_loader1, meta1 = build_dataloaders(data_root=os.path.join(p, 'data'), size=128, batch_size=64, augmentationTier=1, seed=manualSeed)
+train_loader2, val_loader2, test_loader2, meta2 = build_dataloaders(data_root=os.path.join(p, 'data'), size=128, batch_size=64, augmentationTier=2, seed=manualSeed)
+train_loader3, val_loader3, test_loader3, meta3 = build_dataloaders(data_root=os.path.join(p, 'data'), size=128, batch_size=64, augmentationTier=3, seed=manualSeed)
 model_out = os.path.join(p, 'experiments')
 
 print("----------Finished loading data----------")
@@ -54,14 +56,14 @@ model2, optimizer2, scheduler2 = define_model()
 model3, optimizer3, scheduler3 = define_model()
 
 val_losses0, val_accuracies0, train_losses0 = train_x_epoch(
-    model0, train_loader0, criterion=criterion, optimizer=optimizer0, epochs=epochs, scheduler=scheduler0, val_loader=val_loader0, seed=67, augTier=0
+    model0, train_loader0, criterion=criterion, optimizer=optimizer0, epochs=epochs, scheduler=scheduler0, val_loader=val_loader0, seed=manualSeed, augTier=0
 )
 val_losses1, val_accuracies1, train_losses1 = train_x_epoch(
-    model1, train_loader1, criterion=criterion, optimizer=optimizer1, epochs=epochs, scheduler=scheduler1, val_loader=val_loader1, seed=67, augTier=1
+    model1, train_loader1, criterion=criterion, optimizer=optimizer1, epochs=epochs, scheduler=scheduler1, val_loader=val_loader1, seed=manualSeed, augTier=1
 )
 val_losses2, val_accuracies2, train_losses2 = train_x_epoch(
-    model2, train_loader2, criterion=criterion, optimizer=optimizer2, epochs=epochs, scheduler=scheduler2, val_loader=val_loader2, seed=67, augTier=2
+    model2, train_loader2, criterion=criterion, optimizer=optimizer2, epochs=epochs, scheduler=scheduler2, val_loader=val_loader2, seed=manualSeed, augTier=2
 )
 val_losses3, val_accuracies3, train_losses3 = train_x_epoch(
-    model3, train_loader3, criterion=criterion, optimizer=optimizer3, epochs=epochs, scheduler=scheduler3, val_loader=val_loader3, seed=67, augTier=3
+    model3, train_loader3, criterion=criterion, optimizer=optimizer3, epochs=epochs, scheduler=scheduler3, val_loader=val_loader3, seed=manualSeed, augTier=3
 )
