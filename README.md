@@ -66,13 +66,34 @@ Quick sanity checks
 
 ---
 
+## Grad-CAM Visualizations
+
+Below: For each class, we show a correctly classified ("easy") and a misclassified ("hard") sample.  
+Left: Original image. Right: Grad-CAM overlay with model prediction and true label.
+
+| Class |             Plot              |
+|-------|:-----------------------------:|
+| Daisy | ![](plots/gradcam/Aster_gradcam.png) |
+| Rose  | ![](plots/gradcam/Rose_gradcam.png) |
+
+### Interpretation
+
+- **Model Focus:** Grad-CAM highlights show the model often attends to the central region of the flower, especially the petals and reproductive organs, which are key for class distinction.
+- **Correct Classifications:** For easy samples, the model's attention aligns well with the main flower, ignoring background clutter.
+- **Wrong Classifications:** For hard samples, the model's attention may still focus on the main flower (however sometties its hard to distinguish simliar classes) or focuses on other plants in the image.
+
+**Common Failure Modes:**
+- Background clutter or multiple flowers in frame.
+- Occluded or atypical flower shapes.
+- Visually similar classes (e.g., Daisy vs. Aster).
+
 ## Roadmap (short)
 
 - Week 1 — Repo scaffolding & env ✅
 - Week 2 — Data pipeline ✅
 - Week 3 — Baseline model & training loop ✅
 - Week 4 — Data augmentation experiments ✅
-- Week 5 — Grad-CAM visualizations ⏳
+- Week 5 — Grad-CAM visualizations ✅
 - Week 6 — Results, conclusions, polish ⏳
 
 License & citation
