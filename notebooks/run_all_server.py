@@ -25,7 +25,7 @@ if device.type == "cuda":
 
 from data import build_dataloaders
 
-manualSeed = 68
+manualSeed = 66
 
 train_loader0, val_loader0, test_loader0, meta0 = build_dataloaders(data_root=os.path.join(p, 'data'), size=128, batch_size=64, augmentationTier=0, seed=manualSeed)
 train_loader1, val_loader1, test_loader1, meta1 = build_dataloaders(data_root=os.path.join(p, 'data'), size=128, batch_size=64, augmentationTier=1, seed=manualSeed)
