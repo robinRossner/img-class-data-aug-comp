@@ -23,8 +23,6 @@ notebooks/sanity_check_full.ipynb
 # datasets
 data/
 data
-# Pure Self Study
-/notebooks/colab_compact_train.ipynb
 
 # Other
 .DS_Store
