@@ -12,9 +12,13 @@ experiments/bad_images/
 experiments/logs/
 experiments/checkpoints/
 experiments/calc_average_metrics.py
+experiments/checkpoints/
+experiments/splits/
 
 # notebooks
 .ipynb_checkpoints/
+notebooks/run_all_server.py
+notebooks/sanity_check_full.ipynb
 
 # datasets
 data/
@@ -25,3 +29,8 @@ data
 # Other
 .DS_Store
 data.zip
+
+# Plots
+plots/*.png
+!plots/aug_tiers_comparison.png
+!plots/gradcam/*.png
