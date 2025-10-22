@@ -97,12 +97,12 @@ Below: For some classes, below are correctly classified ("easy") and a misclassi
 Below: Results table of 3 averaged runs and their augmentations with Validtion Acccuracy and Test Accuracy.
 Both Accuracies are based on the final epoch of the model and average across the 3 seeds.
 
-| Run      | Augmentations | Val Acc (%) | Test Acc (%) |
-|----------|---------------|-------------|--------------|
-| baseline |     None      |    76.9 %   |    75.8 %    |
-| aug1     |  Flip + Crop  |    85.9 %   |    86.3 %    |
-| aug2     | + ColorJitter |    86.1 %   |    87.1 %    |
-| aug3     | + RandomErase |    86.4 %   |    86.7 %    |
+| Run      | Augmentations | Val Acc (%) |       sd +/- | Test Acc (%) |       sd +/- |
+|----------|---------------|-------------|--------------|--------------|--------------|
+| baseline |     None      |    76.9 %   |  +/- 0.19%   |    75.8 %    |  +/- 0.19%   |
+| aug1     |  Flip + Crop  |    85.9 %   |  +/- 0.27%   |    86.3 %    |  +/- 1.51%   |
+| aug2     | + ColorJitter |    86.1 %   |  +/- 0.06%   |    87.1 %    |  +/- 0.95%   |
+| aug3     | + RandomErase |    86.4 %   |  +/- 0.13%   |    86.7 %    |  +/- 0.87%   |
 
 ## Conclusion
 Baseline performed worst: plain training without augmentation led to the lowest validation/test accuracy and signs of relying on spurious background cues. The strongest single improvement came from simple Flip + Crop (aug1), which gave the biggest gain in val/test accuracy by forcing spatial invariance and better focus on the flower region. ColorJitter gave a small additional gain — likely because it encourages the model to rely more on shape/structure than color alone. RandomErase was mixed: it can regularize but sometimes removed whole plants/flowers from images and caused confusion. Overall, augmentations reduced overfitting (smaller train→val gap) though they sometimes slowed convergence (mild underfitting early in training).
