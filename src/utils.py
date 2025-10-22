@@ -11,9 +11,6 @@ def seed_everything(seed: int):
     torch.manual_seed(seed)
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(seed)
-    # Deterministic behavior for cuda (may be slower)
-    #torch.backends.cudnn.deterministic = True
-    #torch.backends.cudnn.benchmark = False
 
 def plot(val_losses, val_accuracies, train_losses, dest=None):
 
@@ -59,3 +56,24 @@ def plot_from_csv(source, dest):
     val_accuracies = df['val_acc'].tolist()
     train_losses = df['train_loss'].tolist()
     plot(val_losses, val_accuracies, train_losses, dest=dest)
+
+def compare_plots(sources, labels, dest=None):
+
+    plt.figure(figsize=(6, 4))
+
+    for source, label in zip(sources, labels):
+        df = pd.read_csv(source)
+        val_accuracies = df['val_acc'].tolist()
+        epochs = range(1, len(val_accuracies) + 1)
+        plt.plot(epochs, val_accuracies, label=label)
+
+    plt.title('Validation Accuracy Comparison')
+    plt.xlabel('Epochs')
+    plt.ylabel('Accuracy (%)')
+    plt.legend()
+    plt.grid()
+
+    if dest:
+        plt.savefig(dest)
+    plt.show()
+    plt.close()

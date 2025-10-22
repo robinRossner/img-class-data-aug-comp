@@ -46,13 +46,6 @@ def train_x_epoch(model, dataloader, criterion, optimizer, epochs, scheduler=Non
             correct += (outputs.argmax(1) == labels).sum().item()
             samples += batch_size
 
-            # Print every 20% of an epoch
-            #if i % (len(dataloader) // 5) == 0:
-            #    avg_so_far = total_loss / samples
-            #    acc_so_far = 100 * correct / samples
-            #    percent = int((i + 1) / len(dataloader) * 100)
-            #    print(f'{percent}% - Batch {i+1}/{len(dataloader)}  loss: {avg_so_far:.4f}  acc: {acc_so_far:.2f}%  lr: {optimizer.param_groups[0]["lr"]:.6f}')
-
         train_loss = total_loss / samples
         train_acc = 100 * correct / samples
 

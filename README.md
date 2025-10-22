@@ -99,12 +99,20 @@ Both Accuracies are based on the final epoch of the model and average across the
 
 | Run      | Augmentations | Val Acc (%) | Test Acc (%) |
 |----------|---------------|-------------|--------------|
-| baseline |     None      |    76.9 %   |              |
-| aug1     |  Flip + Crop  |    85.9 %   |              |
-| aug2     | + ColorJitter |    86.1 %   |              |
-| aug3     | + RandomErase |    86.4 %   |              |
+| baseline |     None      |    76.9 %   |    75.8 %    |
+| aug1     |  Flip + Crop  |    85.9 %   |    86.3 %    |
+| aug2     | + ColorJitter |    86.1 %   |    87.1 %    |
+| aug3     | + RandomErase |    86.4 %   |    86.7 %    |
 
-## Summary
+## Conclusion
+Baseline performed worst: plain training without augmentation led to the lowest validation/test accuracy and signs of relying on spurious background cues. The strongest single improvement came from simple Flip + Crop (aug1), which gave the biggest gain in val/test accuracy by forcing spatial invariance and better focus on the flower region. ColorJitter gave a small additional gain — likely because it encourages the model to rely more on shape/structure than color alone. RandomErase was mixed: it can regularize but sometimes removed whole plants/flowers from images and caused confusion. Overall, augmentations reduced overfitting (smaller train→val gap) though they sometimes slowed convergence (mild underfitting early in training).
+
+Future work (short)
+- Try vertical flips where botanically appropriate.
+- Class-preserving MixCut / CutMix (mix samples only within the same class).
+- Larger pretrained backbone and staged fine-tuning schedule.
+- Segmentation or attention-guided cropping to remove background clutter.
+- Explore semi-/unsupervised pretraining (self-supervised features or pseudo-labeling) to improve robustness.
 
 
 

@@ -9,13 +9,16 @@ venvClean/
 *.pt
 /experiments/clean_bad_images.py
 experiments/bad_images/
+experiments/logs/
+experiments/checkpoints/
+experiments/calc_average_metrics.py
 
 # notebooks
 .ipynb_checkpoints/
 
 # datasets
 data/
-
+data
 # Pure Self Study
 /notebooks/colab_compact_train.ipynb
 
