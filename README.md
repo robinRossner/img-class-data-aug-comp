@@ -66,6 +66,12 @@ Quick sanity checks
 
 ---
 
+## Augmentatiion Results
+
+Below: for seed 66, 67, 68 are the averaged results graphed (accuracy vs epoch)
+
+![](plots/aug_tiiers_comparison.png)
+
 ## Grad-CAM Visualizations
 
 Below: For some classes, below are correctly classified ("easy") and a misclassified ("hard") sample.  
@@ -85,6 +91,20 @@ Below: For some classes, below are correctly classified ("easy") and a misclassi
 - Background clutter or multiple flowers in frame.
 - Occluded or atypical flower shapes.
 - Visually similar classes (e.g., Daisy vs. Aster).
+
+# Results
+
+<!-- Inserted skeleton results table at line 96 -->
+| Run      | Augmentations | Val Acc (%) | Test Acc (%) |
+|----------|---------------|-------------|--------------|
+| baseline |     None      |             |              |
+| aug1     |  Flip + Crop  |             |              |
+| aug2     | + ColorJitter |             |              |
+| aug3     | + RandomErase |             |              |
+
+## Summary
+
+
 
 ## Roadmap (short)
 
