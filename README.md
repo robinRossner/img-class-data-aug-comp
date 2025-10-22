@@ -70,7 +70,7 @@ Quick sanity checks
 
 Below: for seed 66, 67, 68 are the averaged results graphed (accuracy vs epoch)
 
-![](plots/aug_tiiers_comparison.png)
+![](plots/aug_tiers_comparison.png)
 
 ## Grad-CAM Visualizations
 
@@ -94,13 +94,15 @@ Below: For some classes, below are correctly classified ("easy") and a misclassi
 
 # Results
 
-<!-- Inserted skeleton results table at line 96 -->
+Below: Results table of 3 averaged runs and their augmentations with Validtion Acccuracy and Test Accuracy.
+Both Accuracies are based on the final epoch of the model and average across the 3 seeds.
+
 | Run      | Augmentations | Val Acc (%) | Test Acc (%) |
 |----------|---------------|-------------|--------------|
-| baseline |     None      |             |              |
-| aug1     |  Flip + Crop  |             |              |
-| aug2     | + ColorJitter |             |              |
-| aug3     | + RandomErase |             |              |
+| baseline |     None      |    76.9 %   |              |
+| aug1     |  Flip + Crop  |    85.9 %   |              |
+| aug2     | + ColorJitter |    86.1 %   |              |
+| aug3     | + RandomErase |    86.4 %   |              |
 
 ## Summary
 
