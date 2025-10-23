@@ -22,7 +22,6 @@ notebooks/sanity_check_full.ipynb
 
 # datasets
 data/
-data
 
 # Other
 .DS_Store

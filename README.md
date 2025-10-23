@@ -8,6 +8,39 @@ Goal: Train a baseline CNN / ResNet on a 10-class flower dataset and compare dat
 Train a CNN on a 10-class flower dataset, then compare data augmentations and visualize model focus with Grad-CAM.
 
 ---
+## How to install
+
+### Prerequisites
+- Python ≥ 3.9
+- PyTorch ≥ 2.0 (with CUDA if you have GPU)
+- torchvision, matplotlib, etc.
+
+### Environment Setup
+git clone https://github.com/robinRossner/img-class-data-aug-comp.git
+cd img-class-data-aug-comp
+python -m venv venv && source venv/bin/activate
+pip install -r requirements.txt
+
+### Dataset
+The flower dataset will be downloaded automatically to "./data" on the first run.
+
+### Train model
+python src.train.py --config experiments/configs/baseline.yaml
+
+### Run Augmented Models
+python src.train.py --config experiments/configs/aug_1.yaml
+
+### Evaluate
+python src/evaluate_from_config.py --config experiments/configs/baseline.yaml --split val
+
+### Gradcam
+python src/gradcam_from_config.py --config experiments/configs/baseline.yaml \
+  --checkpoint experiments/checkpoints/model_epoch_best_Tier0.pth --split val --index 0 \
+  --out plots/gradcam/sample0_overlay.png
+
+## Model
+
+The model used for training was "mobilenet_v2" with unset weights (untrained)
 
 ## Dataset
 Source: Kaggle — “Flower Classification (10 classes / V2 etc.)”, organized as `root/<class_name>/*.jpg`.
@@ -27,42 +60,22 @@ Current split (train / val / test): **17,380 / 2,165 / 2,165** (≈80/10/10).
 
 ## Repository structure
 
-- src/ — (versioned) core code
-  - data.py — dataset discovery, splits, transforms, loaders
-  - model.py — SmallCNN + model factory
-  - train.py — training loop, checkpointing, CSV logging
-  - eval.py — evaluation helpers, checkpoint loading
-  - utils.py — seeding, plotting helpers
-
-- experiments/ — (runtime outputs)
-  - splits/ — generated CSVs (recommended to commit for reproducibility)
-    - train.csv
-    - val.csv
-    - test.csv
-  - checkpoints/ — model checkpoints (.pth) -> keep out of git (gitignored)
-  - logs/ — per-run CSV logs -> commit small summaries only
-
-- notebooks/ — analysis & sanity-check notebooks
-  - 01_data_sanity.ipynb
-  - 02_model_sanity.ipynb
-  - sanity_check_full.ipynb
-  - compare_tiers.ipynb
-  - run_all_server.py
-
-- plots/ — generated plots
-- requirements.txt — (versioned) dependency list
-- README.md — this file
+src/             → Core training code (data, model, train, eval, utils, gradcam)
+experiments/     → Configs + experiment outputs (checkpoints, logs, splits)
+notebooks/       → Jupyter notebooks (sanity checks, Grad-CAM, comparisons)
+plots/           → Final figures (training curves, Grad-CAM results)
+requirements.txt → Dependency list
+README.md        → Project overview (this file)
 
 ---
 
 Reproducibility
 
-- Default seed: 67 (changeable via function args or config).
-- Splits are persisted to `experiments/splits/*.csv` so runs are reproducible using the same CSVs.
+Default seed: 67 (configurable).
 
-Quick sanity checks
+Splits are persisted to experiments/splits/*.csv for consistent reruns.
 
-- Open `notebooks/sanity_check.ipynb` and run the first two cells to import model/data and run a short train loop.
+Determinism flags enabled where practical (e.g., torch.backends.cudnn.deterministic=True).
 
 ---
 
@@ -115,17 +128,7 @@ Future work (short)
 - Explore semi-/unsupervised pretraining (self-supervised features or pseudo-labeling) to improve robustness.
 
 
-
-## Roadmap (short)
-
-- Week 1 — Repo scaffolding & env ✅
-- Week 2 — Data pipeline ✅
-- Week 3 — Baseline model & training loop ✅
-- Week 4 — Data augmentation experiments ✅
-- Week 5 — Grad-CAM visualizations ✅
-- Week 6 — Results, conclusions, polish ⏳
-
-License & citation
+## License & citation
 
 License: MIT (see LICENSE).
 

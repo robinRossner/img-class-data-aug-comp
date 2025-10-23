@@ -1,0 +1,41 @@
+# Experiment: Augmentation Tier 3
+experiment: image_classification_aug3
+seed: 67
+device: auto
+
+data:
+  data_root: data
+  size: 224
+  batch_size: 64
+  num_workers: 8
+  val_split: 0.1
+  test_split: 0.1
+  augmentationTier: 3
+  limit_per_class: false
+
+model:
+  name: mobilenet_v2
+  pretrained: false
+  num_classes: 10
+
+training:
+  epochs: 10
+  learning_rate: 0.001
+  weight_decay: 0.0
+  optimizer: adam
+  use_scheduler: true
+  scheduler:
+    name: cosine
+    T_max: 10
+
+checkpoints:
+  out_dir: experiments/checkpoints/aug3
+  save_best_template: model_epoch_best_Tier{augmentationTier}.pth
+  save_last_template: model_epoch_last_Tier{augmentationTier}.pth
+
+logging:
+  out_dir: experiments/logs/aug3
+  log_file_template: training_log_Tier{augmentationTier}.csv
+
+output:
+  splits_dir: experiments/splits/aug3

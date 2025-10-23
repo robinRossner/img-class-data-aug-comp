@@ -18,7 +18,7 @@ def build_dataloaders(
 
     samples, class_to_idx, class_names = discover_samples(data_root, limit_per_class=False)
 
-    # # Make sure data exists DEBUGGING
+    # Make sure data exists DEBUGGING
     assert samples, "No Img found in the dataset root."
 
 
@@ -42,7 +42,6 @@ def build_dataloaders(
     print(f"Discovered {len(samples)} samples in {len(class_names)} classes.")
     print(f"Augmentation Tier {augmentationTier} - Train/val/test split: {len(train)}/{len(val)}/{len(test)}")
 
-    # reproducible worker RNGs
     worker_init = None
 
     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True,

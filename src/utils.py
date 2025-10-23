@@ -3,6 +3,10 @@ import numpy as np
 import torch
 import matplotlib.pyplot as plt
 import pandas as pd
+import os
+import shutil
+import kagglehub
+import inspect
 
 def seed_everything(seed: int):
 
@@ -77,3 +81,31 @@ def compare_plots(sources, labels, dest=None):
         plt.savefig(dest)
     plt.show()
     plt.close()
+
+
+def ensure_dataset_exists(dataset_slug="robinrossner/flower-classification-restructured",
+                          target_dir="./data"):
+    target_dir = os.path.abspath(target_dir)
+    if os.path.exists(target_dir) and os.listdir(target_dir):
+        print(f"Dataset already present at: {target_dir}")
+        return target_dir
+
+    print("Dataset not found. Downloading via kagglehub...")
+
+    print("dataset_download signature:", inspect.signature(kagglehub.dataset_download))
+    try:
+        path = kagglehub.dataset_download(dataset_slug, force_download=True)
+    except TypeError:
+        path = kagglehub.dataset_download(dataset_slug)
+
+    print("Downloaded/extracted into:", path)
+
+    if os.path.exists(target_dir):
+        print("Removing old target:", target_dir)
+        shutil.rmtree(target_dir)
+
+    print(f"Moving {path} -> {target_dir}")
+    shutil.move(path, target_dir)
+    print(f"Dataset ready at: {target_dir}")
+
+    return target_dir
