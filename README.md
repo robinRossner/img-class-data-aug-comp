@@ -17,8 +17,11 @@ Train a CNN on a 10-class flower dataset, then compare data augmentations and vi
 
 ### Environment Setup
 git clone https://github.com/robinRossner/img-class-data-aug-comp.git
+
 cd img-class-data-aug-comp
+
 python -m venv venv && source venv/bin/activate
+
 pip install -r requirements.txt
 
 ### Dataset
@@ -61,11 +64,17 @@ Current split (train / val / test): **17,380 / 2,165 / 2,165** (≈80/10/10).
 ## Repository structure
 
 src/             → Core training code (data, model, train, eval, utils, gradcam)
+
 experiments/     → Configs + experiment outputs (checkpoints, logs, splits)
+
 notebooks/       → Jupyter notebooks (sanity checks, Grad-CAM, comparisons)
+
 plots/           → Final figures (training curves, Grad-CAM results)
+
 requirements.txt → Dependency list
+
 README.md        → Project overview (this file)
+
 
 ---
 
